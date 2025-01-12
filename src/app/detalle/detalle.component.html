@@ -1,0 +1,58 @@
+<div class="contenedor">
+  <div class="contenido">
+    <div class="pokedex">
+      <div class="pokemon-contenedor">
+        <img
+          [src]="detallesPokemon.sprites.front_default"
+          [alt]="detallesPokemon.name"
+          class="pokemon-imagen"
+        />
+      </div>
+    </div>
+
+    <div class="card border-light shadow descripcion" style="width: 350px;">
+      <div class="card-body">
+        <h2 class="card-title text-center text-capitalize mb-3">
+          {{ detallesPokemon.name }}
+        </h2>
+        <p class="mb-2">
+          <strong>Altura:</strong> {{ detallesPokemon.height }} cm
+        </p>
+        <p class="mb-2">
+          <strong>Peso:</strong> {{ detallesPokemon.weight }} kg
+        </p>
+        <p class="mb-1"><strong>Habilidades:</strong></p>
+        <ul class="list-unstyled mb-3">
+          <li *ngFor="let habilidad of detallesPokemon.abilities" class="list-group-item">
+            {{ habilidad.ability.name | titlecase }}
+            <span *ngIf="habilidad.is_hidden" class="badge bg-warning text-dark ms-2">Oculta</span>
+          </li>
+          
+        </ul>
+        <p class="mb-1"><strong>Tipo:</strong></p>
+        <ul class="list-unstyled mb-3">
+          <li *ngFor="let tipo of detallesPokemon.types">
+            {{ tipo.type.name }}
+          </li>
+        </ul>
+        <p><strong>Movimientos:</strong></p>
+        <ul>
+          <li *ngFor="let movimiento of movimientosIniciales">
+            {{ movimiento | titlecase }}
+          </li>
+        </ul>
+
+        
+        
+        <!-- Sonido del pokemon -->
+        <button class="btn btn-primary" (click)="reproducirSonido()">
+          Reproducir sonido
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="boton-regresar">
+    <button class="btn btn-primary" (click)="regresar()">Regresar</button>
+  </div>
+</div>

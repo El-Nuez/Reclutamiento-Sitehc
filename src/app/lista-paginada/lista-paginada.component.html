@@ -1,0 +1,103 @@
+<div class="container mt-4">
+  <div class="text-center mb-4">
+    <img
+      src="https://raw.githubusercontent.com/sleduardo20/pokedex/0671af442dff1d8f7141e49eb83b438885bbc9e9/public/img/logo.svg"
+      alt="Pokedex"
+      class="img-fluid logo-pokedex"
+    />
+  </div>
+
+  <!-- Buscar por tipo de pokemon -->
+  <div class="row mb-4 justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+      <div class="input-group">
+        <select class="form-select" [(ngModel)]="tipoSeleccionado" (change)="buscarPorTipo($event)">
+          <option value="" selected>Buscar por tipo</option>
+          <option value="fire">Fuego</option>
+          <option value="water">Agua</option>
+          <option value="grass">Planta</option>
+          <option value="bug">Bicho</option>
+          <option value="dark">Siniestro</option>
+          <option value="dragon">Dragón</option>
+          <option value="fairy">Hada</option>
+          <option value="fighting">Lucha</option>
+          <option value="ghost">Fantasma</option>
+          <option value="ground">Tierra</option>
+          <option value="ice">Hielo</option>
+          <option value="normal">Normal</option>
+          <option value="poison">Veneno</option>
+          <option value="psychic">Psíquico</option>
+          <option value="rock">Roca</option>
+          <option value="steel">Acero</option>
+        </select>
+        <!-- Buscar por Id o Nombre -->
+        <input
+          class="form-control"
+          placeholder="Buscar por ID o Nombre"
+          [(ngModel)]="idSeleccionado"
+          (keyup.enter)="buscarPorID_Nombre($event)"
+        />
+        <button class="btn btn-primary" (click)="limpiarBusqueda()">Limpiar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row justify-content-center">
+    <div
+      class="col-6 col-sm-4 col-md-3 col-lg-2 mb-4"
+      *ngFor="let pokemon of listaPokemon"
+    >
+      <div class="card tarjeta-hover">
+        <div class="id-label">#{{ pokemon.url.split('/').slice(-2)[0] }}</div>
+        <img
+          [src]="pokemon.imagen"
+          class="card-img-top"
+          [alt]="pokemon.nombre"
+          (error)="pokemon.imagen = 'https://mcfil.net.ar/wp-content/uploads/2021/04/no-dispnible.jpg'"
+        />
+        <div class="card-footer text-center">
+          <h5 class="card-title text-capitalize">{{ pokemon.nombre }}</h5>
+        </div>
+        <div class="card-body detalles-hover">
+          <h5 class="card-title text-capitalize">{{ pokemon.nombre }}</h5>
+          <p><strong>Número de Pokedex:</strong> {{ pokemon.url.split('/').slice(-2)[0] }}</p>
+          <a
+            [routerLink]="'/detalle/' + pokemon.url.split('/').slice(-2)[0]"
+            class="btn btn-outline-secondary"
+          >
+            Más detalles
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <nav aria-label="Navegación de página">
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="offset === 0">
+        <a class="page-link" href="javascript:void(0)" (click)="irAPagina(1)">Primera</a>
+      </li>
+      <li class="page-item" [class.disabled]="offset === 0">
+        <a class="page-link" href="javascript:void(0)" (click)="paginaAnterior()">Anterior</a>
+      </li>
+      <li class="page-item" *ngFor="let num of paginas">
+        <a
+          class="page-link"
+          href="javascript:void(0)"
+          (click)="irAPagina(num)"
+          [class.active]="offset / limit + 1 === num"
+        >
+          {{ num }}
+        </a>
+      </li>
+      <li class="page-item" [class.disabled]="offset + limit >= this.totalPokemons">
+        <a class="page-link" href="javascript:void(0)" (click)="siguientePagina()">Siguiente</a>
+      </li>
+      <li class="page-item" [class.disabled]="offset + limit >= this.totalPokemons">
+        <a class="page-link" href="javascript:void(0)" (click)="irAPagina(calcularUltimaPagina())">
+          Última
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
